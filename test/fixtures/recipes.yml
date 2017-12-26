@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  yield: MyString
+  name: MyString
+  total_cooking_time: 1
+  directions: MyString
+
+two:
+  yield: MyString
+  name: MyString
+  total_cooking_time: 1
+  directions: MyString

@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20171228174427) do
   create_table "recipes", force: :cascade do |t|
     t.string "yield"
     t.string "name"
-    t.integer "total_cooking_time"
+    t.string "total_cooking_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

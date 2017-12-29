@@ -172,8 +172,18 @@ breakfast.each do |url|
   hash = Nokogiri::HTML(RestClient.get("#{url}"))
   recipe = Recipe.find_or_initialize_by(name: hash.title.split(" | Serious Eats").first)
   recipe.yield = hash.css("ul.recipe-about span.info.yield").text
-  recipe.total_cooking_time = hash.css("ul.recipe-about span.info")[1].text.to_i
+  recipe_info = hash.css("ul.recipe-about span")
+  total_time = recipe_info.select.with_index do |element, index|
+    element.child.text.include?("Total time:") || recipe_info[index-1].child.text.include?("Total time:")
+  end
+ 
+  recipe.total_cooking_time = total_time.last.child.text
 
+  # recipe_info.each_with_index do |element, index|
+  #   if element.child.text.include?("Total Time")
+  #     recipe.total_cooking_time = recipe_info[i+1].child.text
+  #   end
+  # end
 
   if recipe.valid?
     recipe.save

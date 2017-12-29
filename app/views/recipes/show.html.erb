@@ -4,7 +4,7 @@
 
 <h1><%= @recipe.name%></h1>
 <h3><%= "Yield: #{@recipe.yield}"  %></h3>
-<h3><%= "Total Cooking Time: #{@recipe.total_cooking_time} minutes"  %></h3>
+<h3><%= "Total Cooking Time: #{@recipe.total_cooking_time}"  %></h3>
 <h3>Ingredients: </h3>
 <ul><% @recipe_ingredients.each do |recipe_ingredient| %>
   <li><%= "#{recipe_ingredient.quantity_with_measurement} of "%><%=link_to recipe_ingredient.ingredient.name.split.map(&:capitalize).join(' '), ingredient_path(recipe_ingredient.ingredient)%><%=recipe_ingredient.extra_instructions%> </li>

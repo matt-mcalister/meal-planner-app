@@ -1,0 +1,10 @@
+<h1>How much do you currently have in stock?</h1>
+<h2><%= @pantryitem.ingredient.name %></h2>
+
+<%=form_for @pantryitem do |f| %>
+<%=f.label :quantity_in_stock%>
+<%=f.number_field :quantity_in_stock%>
+<%=f.label :unit_of_measurement%>
+<%=f.select :unit_of_measurement, [["Cups", "cups"], ["Tablespoons", "tablespoons"], ["Teaspoons", "teaspoons"], ["Liters", "liters"], ["Milliliters", "milliliters"], ["Ounces", "ounces"], ["Grams", "grams"]]%>
+<%=f.submit %>
+<% end %>

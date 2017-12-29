@@ -1,11 +1,19 @@
+<% if @recipe.user_ids.include?(current_user.id) %>
+  this is your recipe
+<% end %>
+
 <h1><%= @recipe.name%></h1>
-<h3><%= "Yield: #{@recipe.yield} servings"  %></h3>
+<h3><%= "Yield: #{@recipe.yield}"  %></h3>
 <h3><%= "Total Cooking Time: #{@recipe.total_cooking_time} minutes"  %></h3>
 <h3>Ingredients: </h3>
-<ul><% @recipe.recipe_ingredients.each do |recipe_ingredient| %>
-  <li><%= "#{recipe_ingredient.quantity_and_measurement} of "%><%=link_to recipe_ingredient.ingredient.name, ingredient_path(recipe_ingredient.ingredient)%> </li>
+<ul><% @recipe_ingredients.each do |recipe_ingredient| %>
+  <li><%= "#{recipe_ingredient.quantity_with_measurement} of "%><%=link_to recipe_ingredient.ingredient.name.split.map(&:capitalize).join(' '), ingredient_path(recipe_ingredient.ingredient)%><%=recipe_ingredient.extra_instructions%> </li>
   <%end%>
 </ul>
 
 <h3>Directions:</h3>
-<p> <%=@recipe.directions  %></p>
+<ol>
+<% @instructions.each do |instruction|  %>
+  <li><%= instruction.instruction_text %></li>
+<%end%>
+<ol>

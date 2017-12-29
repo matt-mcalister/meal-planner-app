@@ -34,6 +34,8 @@ gem 'faker'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'rest-client'
+gem 'nokogiri'
 
 gem 'bootstrap-sass', '3.3.7'
 

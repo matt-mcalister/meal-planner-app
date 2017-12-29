@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171226205338) do
+ActiveRecord::Schema.define(version: 20171228174427) do
 
   create_table "ingredients", force: :cascade do |t|
     t.string "name"
@@ -18,11 +18,17 @@ ActiveRecord::Schema.define(version: 20171226205338) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "instructions", force: :cascade do |t|
+    t.integer "recipe_id"
+    t.integer "instruction_number"
+    t.string "instruction_text"
+    t.index ["recipe_id"], name: "index_instructions_on_recipe_id"
+  end
+
   create_table "pantry_items", force: :cascade do |t|
     t.integer "user_id"
     t.integer "ingredient_id"
-    t.integer "quantity_in_stock"
-    t.string "unit_of_measurement"
+    t.boolean "in_stock", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ingredient_id"], name: "index_pantry_items_on_ingredient_id"
@@ -32,8 +38,8 @@ ActiveRecord::Schema.define(version: 20171226205338) do
   create_table "recipe_cards", force: :cascade do |t|
     t.integer "user_id"
     t.integer "recipe_id"
-    t.integer "rating"
     t.boolean "favorite", default: true
+    t.boolean "to_be_cooked", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["recipe_id"], name: "index_recipe_cards_on_recipe_id"
@@ -43,8 +49,9 @@ ActiveRecord::Schema.define(version: 20171226205338) do
   create_table "recipe_ingredients", force: :cascade do |t|
     t.integer "ingredient_id"
     t.integer "recipe_id"
-    t.integer "quantity_used"
+    t.float "quantity_used"
     t.string "unit_of_measurement"
+    t.string "extra_instructions", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ingredient_id"], name: "index_recipe_ingredients_on_ingredient_id"
@@ -55,16 +62,15 @@ ActiveRecord::Schema.define(version: 20171226205338) do
     t.string "yield"
     t.string "name"
     t.integer "total_cooking_time"
-    t.string "directions"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "password_digest"
   end
 
 end

@@ -1,6 +1,19 @@
 <h1>Ingredients</h1>
 
-<ul><% @ingredients.each do |ingredient| %>
-  <li><%= link_to "#{ingredient.name}", ingredient_path(ingredient) %></li>
+<h3>Currently in stock:</h3>
+<ul><% @pantry_items.each do |item| %>
+  <li><%= item.quantity_and_measurement %> of <%= link_to item.ingredient.name, ingredient_path(item.ingredient)%> - <%=link_to "Edit Quantity", edit_pantry_item_path(item)%> - <%=link_to "Remove from Pantry", pantry_item_path(item), method: :delete%></li>
+  <% end %>
+</ul>
+
+<h3>Grocery list:</h3>
+<ul><% @grocery_list.each do |item| %>
+  <li><%= link_to item.ingredient.name, ingredient_path(item.ingredient)%> - <%=link_to "Add to Pantry", edit_pantry_item_path(item)%> - <%=link_to "Remove from Grocery List", pantry_item_path(item), method: :delete%></li>
+  <% end %>
+</ul>
+
+<h3>Other available ingredients:</h3>
+<ul><% @other_ingredients.each do |ingredient| %>
+  <li><%= link_to "#{ingredient.name}", ingredient_path(ingredient) %> - <%=link_to "Add to Pantry", edit_pantry_item_path(ingredient)%> - <%=link_to "Add to Grocery list", edit_pantry_item_path(ingredient)%></li>
   <% end %>
 </ul>

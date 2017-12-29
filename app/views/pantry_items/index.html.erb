@@ -1,0 +1,6 @@
+<h1>Here's what you have in stock:</h1>
+
+<ul><% @pantryitems.each do |item| %>
+    <li><%= item.quantity_and_measurement %> of <%= link_to item.ingredient.name, ingredient_path(item.ingredient)%> - <%=link_to "Edit Quantity", edit_pantry_item_path(item)%> - <%=link_to "Delete from Pantry", pantry_item_path(item), method: :delete%></li>
+    <% end %>
+</ul>

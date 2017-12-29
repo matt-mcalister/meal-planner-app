@@ -20,6 +20,8 @@
             </button>
             <% if logged_in? %>
                 <%= link_to "Home", user_path(current_user), class: "navbar-brand" %>
+                <%= link_to "My Cookbook", recipe_cards_path, class: "navbar-brand" %>
+                <%= link_to "My Pantry", pantry_items_path, class: "navbar-brand" %>
                 <%= link_to "Browse Recipes", recipes_path, class: "navbar-brand" %>
                 <%= link_to "Browse Ingredients", ingredients_path, class: "navbar-brand" %>
                 <%= link_to "Log Out", sessions_path, method: :delete, class: "navbar-brand" %>

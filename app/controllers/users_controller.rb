@@ -1,12 +1,9 @@
 class UsersController < ApplicationController
   skip_before_action :authorized, only: [:new, :create]
 
-  def index
-    @users = User.all
-  end
-
   def show
     @user = current_user
+    @recipes_to_be_cooked = @user.recipes_to_be_cooked
   end
 
   def new

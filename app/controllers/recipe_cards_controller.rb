@@ -16,14 +16,16 @@ class RecipeCardsController < ApplicationController
   end
 
   def update
-    @recipe_card = RecipeCard.find_by(recipe_card_params[:recipe_id], recipe_card_params[:user_id])
+    @recipe_card = RecipeCard.find(params[:id])
 
-    if @recipe_card.update(recipe_card_params)
-      @recipe_card.save
-    else
+    if !@recipe_card.update(recipe_card_params)
       flash[:error] = @recipe_card.errors.full_messages
     end
-    redirect_to recipe_path(params[:recipe_card][:recipe_id])
+    if params[:source] == "user_path(current_user)"
+      redirect_to user_path(current_user)
+    else
+      redirect_to recipe_path(params[:recipe_card][:recipe_id])
+    end
   end
 
   def destroy

@@ -9,7 +9,13 @@ class PantryItemsController < ApplicationController
 
   def groceries
     @user = current_user
-    @user.grocery_list.each do |ingredient|
+    if params[:recipe_id]
+      ingredients_to_purchase = @user.ingredients_needed_for_recipe(params[:recipe_id])
+    else
+      ingredients_to_purchase = @user.grocery_list
+    end
+
+    ingredients_to_purchase.each do |ingredient|
       pantry_item = PantryItem.find_or_initialize_by(ingredient_id: ingredient.id, user_id: @user.id)
       pantry_item.in_stock = true
       if pantry_item.valid?
@@ -24,7 +30,11 @@ class PantryItemsController < ApplicationController
     if flash[:error]
       flash[:error] = flash[:error].flatten
     end
-    redirect_to method(params[:source]).call
+    if params[:source] == "user_path(current_user)"
+      redirect_to user_path(current_user)
+    else
+      redirect_to method(params[:source]).call
+    end
   end
 
   def create

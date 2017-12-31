@@ -10,6 +10,7 @@ class RecipesController < ApplicationController
     @instructions = @recipe.instructions
     @recipe_ingredients = @recipe.recipe_ingredients
     @user = current_user
+    @recipe_card = RecipeCard.find_or_initialize_by(recipe_id: @recipe.id, user_id: @user.id)
   end
 
 

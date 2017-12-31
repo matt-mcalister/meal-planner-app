@@ -1,15 +1,65 @@
-<% if @recipe.user_ids.include?(current_user.id) %>
-  this is your recipe
-<% end %>
-
 <h1><%= @recipe.name%></h1>
 <h3><%= "Yield: #{@recipe.yield}"  %></h3>
 <h3><%= "Total Cooking Time: #{@recipe.total_cooking_time}"  %></h3>
+<br>
+
+<% if @recipe_card.id %>
+  <p><% if @recipe_card.favorite %>
+    <%= form_for @recipe_card do |f|%>
+    <%= f.number_field :recipe_id, type: :hidden%>
+    <%= f.number_field :user_id, type: :hidden%>
+    <%= f.text_field :favorite, value: false, type: :hidden%>
+    <%= f.text_field :to_be_cooked, type: :hidden%>
+    <%= f.submit "Remove from Favorites" %>
+    <% end %>
+  <% else %>
+    <%= form_for @recipe_card do |f|%>
+    <%= f.number_field :recipe_id, type: :hidden%>
+    <%= f.number_field :user_id, type: :hidden%>
+    <%= f.text_field :favorite, value: true, type: :hidden%>
+    <%= f.text_field :to_be_cooked, type: :hidden%>
+    <%= f.submit "Add to Favorites" %>
+    <% end %>
+  <% end %>
+  <% if @recipe_card.to_be_cooked %>
+    <%= form_for @recipe_card do |f|%>
+    <%= f.number_field :recipe_id, type: :hidden%>
+    <%= f.number_field :user_id, type: :hidden%>
+    <%= f.text_field :favorite, type: :hidden%>
+    <%= f.text_field :to_be_cooked, value: false, type: :hidden%>
+    <%= f.submit "Remove from Meal Calendar" %>
+    <% end %>
+  <% else %>
+    <%= form_for @recipe_card do |f|%>
+    <%= f.number_field :recipe_id, type: :hidden%>
+    <%= f.number_field :user_id, type: :hidden%>
+    <%= f.text_field :favorite, type: :hidden%>
+    <%= f.text_field :to_be_cooked, value: true, type: :hidden%>
+    <%= f.submit "Add to Meal Calendar" %>
+    <% end %>
+  <% end %>
+ </p>
+  <% else %>
+    <%= form_for @recipe_card do |f|%>
+    <%= f.number_field :recipe_id, type: :hidden%>
+    <%= f.number_field :user_id, type: :hidden%>
+    <%= f.text_field :favorite, type: :hidden%>
+    <%= f.text_field :to_be_cooked, type: :hidden%>
+    <%= f.submit "Add to Cookbook" %>
+    <% end %>
+  <% end %>
+<br>
+<% if @user.cookable?(@recipe) %>
+  <p>All ingredients currently in stock</p>
+<% else %>
+  <p>You do not currently have all necessary ingredients to cook this recipe.</p>
+<% end %>
 <h3>Ingredients: </h3>
 <ul><% @recipe_ingredients.each do |recipe_ingredient| %>
   <li><%= "#{recipe_ingredient.quantity_with_measurement} of "%><%=link_to recipe_ingredient.ingredient.name.split.map(&:capitalize).join(' '), ingredient_path(recipe_ingredient.ingredient)%><%=recipe_ingredient.extra_instructions%> </li>
   <%end%>
 </ul>
+
 
 <h3>Directions:</h3>
 <ol>

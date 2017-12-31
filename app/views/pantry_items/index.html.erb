@@ -1,6 +1,41 @@
-<h1>Here's what you have in stock:</h1>
-
-<ul><% @pantryitems.each do |item| %>
-    <li><%= item.quantity_and_measurement %> of <%= link_to item.ingredient.name, ingredient_path(item.ingredient)%> - <%=link_to "Edit Quantity", edit_pantry_item_path(item)%> - <%=link_to "Delete from Pantry", pantry_item_path(item), method: :delete%></li>
+<% if flash[:error]%>
+  <ul><% flash[:error].each do |message| %>
+    <li><%= message %></li>
     <% end %>
-</ul>
+    </ul>
+<% end %>
+
+<h1>My Pantry</h1>
+
+<h3>Currently in stock:</h3>
+  <% if @ingredients_in_stock.empty? %>
+    <p> It looks like you're out of just about everything! Time to make a grocery list and pick a few things up.</p>
+  <% else  %>
+    <ul><% @ingredients_in_stock.each do |ingredient| %>
+      <li><%= link_to ingredient.name, ingredient_path(ingredient)%> - Out of stock</li>
+      <% end %>
+    </ul>
+  <% end %>
+<br>
+<h3>Grocery list:</h3>
+<% if @grocery_list.empty? %>
+  <p> Grocery list is currently blank.</p>
+<% else  %>
+  <ul><% @grocery_list.each do |ingredient| %>
+    <li><%= link_to ingredient.name.capitalize, ingredient_path(ingredient)%>
+      <%= form_for (ingredient.to_pantry_item(@user.id) || @pantry_item) do |f|%>
+      <%= f.number_field :user_id, type: :hidden %>
+      <%= f.number_field :ingredient_id, value: "#{ingredient.id}", type: :hidden %>
+      <%= f.text_field :in_stock, value: true, type: :hidden %>
+      <%= text_field_tag :source, nil, value: "pantry_items_path", type: :hidden%>
+      <%= f.submit "Buy Ingredient"%>
+      <% end %>
+    </li>
+    <br>
+    <% end %>
+  </ul>
+  <%= form_tag "/pantry_items/groceries" %>
+  <%= text_field_tag :source, nil, value: "ingredients_path", type: :hidden%>
+  <%= submit_tag "Buy All Groceries" %>
+<% end %>
+<br>

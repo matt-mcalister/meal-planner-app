@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
   # Full CRUD
   resources :users, only: [:show, :new, :create, :edit, :update, :destroy]
-  resources :recipe_cards
-  resources :pantry_items, only: [:edit, :create, :update, :destroy]
+  resources :recipe_cards, only: [:index, :create, :update, :destroy]
+  resources :pantry_items, only: [:index, :create, :update, :destroy]
 
-  post "/grocery_list/:id", to: 'pantry_items#create_grocery', as: "new_grocery_item"
 
   # Just Read
   resources :recipes, only: [:index, :show]
@@ -16,5 +15,7 @@ Rails.application.routes.draw do
   post "/sessions", to: "sessions#create"
   delete "/sessions", to: "sessions#destroy"
   root to: "static#index"
+
+  post "/pantry_items/groceries", to: "pantry_items#groceries", as: "pantry_groceries"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -8,4 +8,12 @@ class Ingredient < ApplicationRecord
     self.recipe_ingredients.map {|r_i| r_i.unit_of_measurement}.uniq
   end
 
+  def to_recipe_ingredient(recipe_id)
+    RecipeIngredient.find_by(recipe_id: recipe_id, ingredient_id: self.id)
+  end
+
+  def to_pantry_item(user_id)
+    PantryItem.find_by(user_id: user_id, ingredient_id: self.id)
+  end
+
 end

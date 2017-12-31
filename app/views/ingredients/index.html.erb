@@ -12,7 +12,16 @@
     <p> It looks like you're out of just about everything! Time to make a grocery list and pick a few things up.</p>
   <% else  %>
     <ul><% @ingredients_in_stock.each do |ingredient| %>
-      <li><%= link_to ingredient.name, ingredient_path(ingredient)%> - Out of stock</li>
+      <li><%= link_to ingredient.name.capitalize, ingredient_path(ingredient)%>
+        <%= form_for (ingredient.to_pantry_item(@user.id) || @pantry_item) do |f|%>
+        <%= f.number_field :user_id, type: :hidden %>
+        <%= f.number_field :ingredient_id, value: "#{ingredient.id}", type: :hidden %>
+        <%= f.text_field :in_stock, value: false, type: :hidden %>
+        <%= text_field_tag :source, nil, value: "ingredients_path", type: :hidden%>
+        <%= f.submit "Out of Stock, Add to Grocery List"%>
+        <% end %>
+      </li>
+      <br>
       <% end %>
     </ul>
   <% end %>
@@ -45,7 +54,23 @@
     <p> As odd as it sounds, you currently have all available ingredients in your pantry. Can you believe that? Well done! Now, to get cooking....</p>
   <% else  %>
   <ul><% @other_ingredients.each do |ingredient| %>
-    <li><%= link_to "#{ingredient.name}", ingredient_path(ingredient) %> - Add to Pantry - Add To Grocery list</li>
+    <li><%= link_to "#{ingredient.name}", ingredient_path(ingredient) %>
+      <%= form_for (ingredient.to_pantry_item(@user.id) || @pantry_item) do |f|%>
+      <%= f.number_field :user_id, type: :hidden %>
+      <%= f.number_field :ingredient_id, value: "#{ingredient.id}", type: :hidden %>
+      <%= f.text_field :in_stock, value: true, type: :hidden %>
+      <%= text_field_tag :source, nil, value: "ingredients_path", type: :hidden%>
+      <%= f.submit "Add to Pantry"%>
+      <% end %>
+      <%= form_for (ingredient.to_pantry_item(@user.id) || @pantry_item) do |f|%>
+      <%= f.number_field :user_id, type: :hidden %>
+      <%= f.number_field :ingredient_id, value: "#{ingredient.id}", type: :hidden %>
+      <%= f.text_field :in_stock, value: false, type: :hidden %>
+      <%= text_field_tag :source, nil, value: "ingredients_path", type: :hidden%>
+      <%= f.submit "Add to Grocery List"%>
+      <% end %>
+    </li>
+    <br>
     <% end %>
   </ul>
-  <% end %>
+<% end %> 

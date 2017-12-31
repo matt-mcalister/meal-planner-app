@@ -39,12 +39,11 @@ class PantryItemsController < ApplicationController
 
   def update
     @pantry_item = PantryItem.find(params[:id])
-    if @pantry_item.update(pantry_item_params)
-      redirect_to pantry_items_path
-    else
+
+    if !@pantry_item.update(pantry_item_params)
       flash[:error] = @pantry_item.errors.full_messages
-      redirect_to pantry_items_path
     end
+    redirect_to method(params[:source]).call
   end
 
   def destroy

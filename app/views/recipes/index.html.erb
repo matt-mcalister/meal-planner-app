@@ -1,6 +1,29 @@
 <h1>Recipes</h1>
 
-<ul><% @recipes.each do |recipe| %>
-  <li><%= link_to "#{recipe.name}", recipe_path(recipe) %></li>
+<% @recipes.each do |recipe| %>
+  <div class="container">
+    <div style ='float: left; padding: 5px;'>
+      <%= link_to recipe.name.capitalize, recipe_path(recipe)%>
+    </div>
+      <% if !recipe.to_recipe_card(@user.id) %>
+        <div style ='float: left; padding: 5px;'>
+          <%= form_for @recipe_card do |f|%>
+          <%= f.number_field :user_id, type: :hidden %>
+          <%= f.number_field :recipe_id, value: "#{recipe.id}", type: :hidden %>
+          <%= text_field_tag :source, nil, value: "recipes_path", type: :hidden%>
+          <%= f.submit "Add to Cookbook"%>
+          <% end %>
+        </div>
+      <% else %>
+      <div style ='float: left; padding: 5px;'>
+        <%= form_for recipe.to_recipe_card(@user.id), method: :delete do |f|%>
+        <%= text_field_tag :source, nil, value: "recipes_path", type: :hidden%>
+        <%= f.submit "Remove from Cookbook" %>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+
+
+
   <% end %>
-</ul>

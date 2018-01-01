@@ -3,6 +3,7 @@ class RecipesController < ApplicationController
   def index
     @recipes = Recipe.all
     @user = current_user
+    @recipe_card = RecipeCard.new(user_id: @user.id)
   end
 
   def show

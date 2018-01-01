@@ -2,14 +2,16 @@
 <h3><%= "Yield: #{@recipe.yield}"  %></h3>
 <h3><%= "Total Cooking Time: #{@recipe.total_cooking_time}"  %></h3>
 <br>
-
+<div class="container">
 <% if @recipe_card.id %>
-  <p><% if @recipe_card.favorite %>
+<div style ='float: left; padding: 5px;'>
+  <% if @recipe_card.favorite %>
     <%= form_for @recipe_card do |f|%>
     <%= f.number_field :recipe_id, type: :hidden%>
     <%= f.number_field :user_id, type: :hidden%>
     <%= f.text_field :favorite, value: false, type: :hidden%>
     <%= f.text_field :to_be_cooked, type: :hidden%>
+    <%= text_field_tag :source, nil, value: "recipe_path(@recipe)", type: :hidden%>
     <%= f.submit "Remove from Favorites" %>
     <% end %>
   <% else %>
@@ -18,15 +20,19 @@
     <%= f.number_field :user_id, type: :hidden%>
     <%= f.text_field :favorite, value: true, type: :hidden%>
     <%= f.text_field :to_be_cooked, type: :hidden%>
+    <%= text_field_tag :source, nil, value: "recipe_path(@recipe)", type: :hidden%>
     <%= f.submit "Add to Favorites" %>
     <% end %>
   <% end %>
+</div>
+<div style ='float: left; padding: 5px;'>
   <% if @recipe_card.to_be_cooked %>
     <%= form_for @recipe_card do |f|%>
     <%= f.number_field :recipe_id, type: :hidden%>
     <%= f.number_field :user_id, type: :hidden%>
     <%= f.text_field :favorite, type: :hidden%>
     <%= f.text_field :to_be_cooked, value: false, type: :hidden%>
+    <%= text_field_tag :source, nil, value: "recipe_path(@recipe)", type: :hidden%>
     <%= f.submit "Remove from Meal Calendar" %>
     <% end %>
   <% else %>
@@ -35,19 +41,30 @@
     <%= f.number_field :user_id, type: :hidden%>
     <%= f.text_field :favorite, type: :hidden%>
     <%= f.text_field :to_be_cooked, value: true, type: :hidden%>
+    <%= text_field_tag :source, nil, value: "recipe_path(@recipe)", type: :hidden%>
     <%= f.submit "Add to Meal Calendar" %>
     <% end %>
   <% end %>
- </p>
+  </div>
+  <div style ='float: left; padding: 5px;'>
+    <%= form_for @recipe_card, method: :delete do |f|%>
+    <%= text_field_tag :source, nil, value: "recipe_path(@recipe)", type: :hidden%>
+    <%= f.submit "Remove from Cookbook" %>
+    <% end %>
+  </div>
   <% else %>
+  <div style ='float: left; padding: 5px;'>
     <%= form_for @recipe_card do |f|%>
     <%= f.number_field :recipe_id, type: :hidden%>
     <%= f.number_field :user_id, type: :hidden%>
     <%= f.text_field :favorite, type: :hidden%>
     <%= f.text_field :to_be_cooked, type: :hidden%>
+    <%= text_field_tag :source, nil, value: "recipe_path(@recipe)", type: :hidden%>
     <%= f.submit "Add to Cookbook" %>
     <% end %>
+  </div>
   <% end %>
+</div>
 <br>
 <% if @user.cookable?(@recipe) %>
   <p>All ingredients currently in stock</p>

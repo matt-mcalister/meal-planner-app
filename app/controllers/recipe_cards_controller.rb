@@ -13,7 +13,11 @@ class RecipeCardsController < ApplicationController
     else
       flash[:error] = @recipe_card.errors.full_messages
     end
-    redirect_to recipe_path(params[:recipe_card][:recipe_id])
+    if params[:source] == "recipe_path(@recipe)"
+      redirect_to recipe_path(@recipe_card.recipe_id)
+    else
+      redirect_to method(params[:source]).call
+    end
   end
 
   def update
@@ -24,13 +28,19 @@ class RecipeCardsController < ApplicationController
     if params[:source] == "user_path(current_user)"
       redirect_to user_path(current_user)
     else
-      redirect_to recipe_path(params[:recipe_card][:recipe_id])
+      redirect_to method(params[:source]).call
     end
   end
 
   def destroy
-    @recipe_card = RecipeCard.find_by(recipe_id: recipe_card_params[:recipe_id], user_id: recipe_card_params[:user_id])
-
+    @recipe_card = RecipeCard.find(params[:id])
+    @recipe = @recipe_card.recipe
+    @recipe_card.destroy
+    if params[:source] == "recipe_path(@recipe)"
+      redirect_to recipe_path(@recipe)
+    else
+      redirect_to method(params[:source]).call
+    end
   end
 
   private

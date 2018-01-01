@@ -42,8 +42,9 @@
     </div>
   </div>
     <% end %>
-  <%= form_tag "/pantry_items/groceries" %>
+  <%= form_tag "/pantry_items/groceries" do %>
   <%= text_field_tag :source, nil, value: "ingredients_path", type: :hidden%>
   <%= submit_tag "Buy All Groceries" %>
+  <% end %>
 <% end %>
 <br>

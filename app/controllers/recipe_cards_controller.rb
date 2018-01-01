@@ -2,6 +2,7 @@ class RecipeCardsController < ApplicationController
 
   def index
     @recipes = Recipe.all.select {|recipe| recipe.user_ids.include?(current_user.id)}
+    @user = current_user
   end
 
   def create
@@ -17,7 +18,6 @@ class RecipeCardsController < ApplicationController
 
   def update
     @recipe_card = RecipeCard.find(params[:id])
-
     if !@recipe_card.update(recipe_card_params)
       flash[:error] = @recipe_card.errors.full_messages
     end

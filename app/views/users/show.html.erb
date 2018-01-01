@@ -1,37 +1,44 @@
 <h1>Welcome, <%=@user.username%>!</h1>
 
-<h3>Recipes On Deck:</h3>
-<ul><% @recipes_to_be_cooked.each do |recipe| %>
-  <li><%= link_to recipe.name, recipe_path(recipe) %>
-    <% if @user.cookable?(recipe) %>
-    <%= form_for (recipe.to_recipe_card(@user.id)) do |f|%>
-    <%= f.number_field :user_id, type: :hidden %>
-    <%= f.number_field :recipe_id, type: :hidden %>
-    <%= f.number_field :favorite, type: :hidden %>
-    <%= f.text_field :to_be_cooked, value: false, type: :hidden %>
-    <%= text_field_tag :source, nil, value: "user_path(current_user)", type: :hidden%>
-    <%= f.submit "Remove From Recipes To Be Cooked"%>
-    <br>
-    <br>
-    <% end %>
-    <% else %>
-      <ul>
-        You are out of:
-      <% @user.ingredients_needed_for_recipe(recipe.id).each do |ingredient| %>
-         <li><%= link_to ingredient.name.capitalize, ingredient_path(ingredient) %></li>
-     <% end %>
-     </ul>
-     <%= form_tag "/pantry_items/groceries" %>
-     <%= text_field_tag :source, nil, value: "user_path(current_user)", type: :hidden%>
-     <%= text_field_tag :recipe_id, nil, value: "#{recipe.id}", type: :hidden%>
-     <%= submit_tag "Buy All Ingredients For This Recipe" %>
-    <br>
-    <br>
-    <% end %>
 
+<% if @recipes_to_be_cooked == [] %>
+  <h3>There are currently no recipes on deck.</h3>
+     <p>Add recipes to Meal Calendar to form a meal plan.</p>
+  <%= button_to "View Cookbook", recipe_cards_path, method: :get %>
+<% else %>
+  <h3>Recipes On Deck:</h3>
 
-  </li>
-  <% end %>
-</ul>
+  <% @recipes_to_be_cooked.each do |recipe| %>
+    <%= link_to recipe.name, recipe_path(recipe) %>
+    <div class="container">
+    <div style ='float: left; padding: 5px;'>
+      <% if @user.cookable?(recipe) %>
+        <%= form_for (recipe.to_recipe_card(@user.id)) do |f|%>
+        <%= f.number_field :user_id, type: :hidden %>
+        <%= f.number_field :recipe_id, type: :hidden %>
+        <%= f.number_field :favorite, type: :hidden %>
+        <%= f.text_field :to_be_cooked, value: false, type: :hidden %>
+        <%= text_field_tag :source, nil, value: "user_path(current_user)", type: :hidden%>
+        <%= f.submit "Remove From Recipes To Be Cooked"%>
+        <% end %>
+      <% else %>
+          You are out of:
+        <ul><% @user.ingredients_needed_for_recipe(recipe.id).each do |ingredient| %>
+           <li><%= link_to ingredient.name.capitalize, ingredient_path(ingredient) %></li>
+       <% end %>
+       </ul>
+       <%= form_tag "/pantry_items/groceries" do %>
+       <%= text_field_tag :source, nil, value: "user_path(current_user)", type: :hidden%>
+       <%= text_field_tag :recipe_id, nil, value: "#{recipe.id}", type: :hidden%>
+       <%= submit_tag "Buy All Ingredients For This Recipe" %>
+       <% end %>
+      <% end %>
+    </div>
+    </div>
+
+    <% end %>
+<% end %>
+
+<br>
 <br>
 <%= button_to "Settings", edit_user_path(@user), method: :get%>

@@ -6,7 +6,8 @@
 
   <h1>My Recipe Book</h1>
 
-  <% @recipes.each do |recipe| %>
+  <h3>Favorites</h3>
+  <% @recipes.select {|recipe| recipe.to_recipe_card(@user.id).favorite}.each do |recipe| %>
   <div class="container">
     <div style ='float: left; padding: 5px;'>
     <%= link_to "#{recipe.name}", recipe_path(recipe) %>
@@ -19,6 +20,7 @@
       <%= f.number_field :user_id, type: :hidden%>
       <%= f.text_field :favorite, value: false, type: :hidden%>
       <%= f.text_field :to_be_cooked, type: :hidden%>
+      <%= text_field_tag :source, nil, value: "recipe_cards_path", type: :hidden%>
       <%= f.submit "Remove from Favorites" %>
       <% end %>
     <% else %>
@@ -27,6 +29,7 @@
       <%= f.number_field :user_id, type: :hidden%>
       <%= f.text_field :favorite, value: true, type: :hidden%>
       <%= f.text_field :to_be_cooked, type: :hidden%>
+      <%= text_field_tag :source, nil, value: "recipe_cards_path", type: :hidden%>
       <%= f.submit "Add to Favorites" %>
       <% end %>
     <% end %>
@@ -40,6 +43,7 @@
       <%= f.number_field :user_id, type: :hidden%>
       <%= f.text_field :favorite, type: :hidden%>
       <%= f.text_field :to_be_cooked, value: false, type: :hidden%>
+      <%= text_field_tag :source, nil, value: "recipe_cards_path", type: :hidden%>
       <%= f.submit "Remove from Meal Calendar" %>
       <% end %>
     <% else %>
@@ -48,11 +52,78 @@
       <%= f.number_field :user_id, type: :hidden%>
       <%= f.text_field :favorite, type: :hidden%>
       <%= f.text_field :to_be_cooked, value: true, type: :hidden%>
+      <%= text_field_tag :source, nil, value: "recipe_cards_path", type: :hidden%>
       <%= f.submit "Add to Meal Calendar" %>
       <% end %>
     <% end %>
     </div>
+    <div style ='float: left; padding: 5px;'>
+      <%= form_for recipe.to_recipe_card(@user.id), method: :delete do |f|%>
+      <%= text_field_tag :source, nil, value: "recipe_cards_path", type: :hidden%>
+      <%= f.submit "Remove from Cookbook" %>
+      <% end %>
+    </div>
+    </div>
+    <% end %>
 
+
+  <h3>Not So Favorites</h3>
+  <% @recipes.reject {|recipe| recipe.to_recipe_card(@user.id).favorite}.each do |recipe| %>
+  <div class="container">
+    <div style ='float: left; padding: 5px;'>
+    <%= link_to "#{recipe.name}", recipe_path(recipe) %>
+    </div>
+    <div style ='float: left; padding: 5px;'>
+    <% if recipe.to_recipe_card(@user.id).favorite %>
+
+      <%= form_for recipe.to_recipe_card(@user.id) do |f|%>
+      <%= f.number_field :recipe_id, type: :hidden%>
+      <%= f.number_field :user_id, type: :hidden%>
+      <%= f.text_field :favorite, value: false, type: :hidden%>
+      <%= f.text_field :to_be_cooked, type: :hidden%>
+      <%= text_field_tag :source, nil, value: "recipe_cards_path", type: :hidden%>
+      <%= f.submit "Remove from Favorites" %>
+      <% end %>
+    <% else %>
+      <%= form_for recipe.to_recipe_card(@user.id) do |f|%>
+      <%= f.number_field :recipe_id, type: :hidden%>
+      <%= f.number_field :user_id, type: :hidden%>
+      <%= f.text_field :favorite, value: true, type: :hidden%>
+      <%= f.text_field :to_be_cooked, type: :hidden%>
+      <%= text_field_tag :source, nil, value: "recipe_cards_path", type: :hidden%>
+      <%= f.submit "Add to Favorites" %>
+      <% end %>
+    <% end %>
+    </div>
+
+
+    <div style ='float: left; padding: 5px;'>
+    <% if recipe.to_recipe_card(@user.id).to_be_cooked %>
+      <%= form_for recipe.to_recipe_card(@user.id) do |f|%>
+      <%= f.number_field :recipe_id, type: :hidden%>
+      <%= f.number_field :user_id, type: :hidden%>
+      <%= f.text_field :favorite, type: :hidden%>
+      <%= f.text_field :to_be_cooked, value: false, type: :hidden%>
+      <%= text_field_tag :source, nil, value: "recipe_cards_path", type: :hidden%>
+      <%= f.submit "Remove from Meal Calendar" %>
+      <% end %>
+    <% else %>
+      <%= form_for recipe.to_recipe_card(@user.id) do |f|%>
+      <%= f.number_field :recipe_id, type: :hidden%>
+      <%= f.number_field :user_id, type: :hidden%>
+      <%= f.text_field :favorite, type: :hidden%>
+      <%= f.text_field :to_be_cooked, value: true, type: :hidden%>
+      <%= text_field_tag :source, nil, value: "recipe_cards_path", type: :hidden%>
+      <%= f.submit "Add to Meal Calendar" %>
+      <% end %>
+    <% end %>
+    </div>
+    <div style ='float: left; padding: 5px;'>
+      <%= form_for recipe.to_recipe_card(@user.id), method: :delete do |f|%>
+      <%= text_field_tag :source, nil, value: "recipes_path", type: :hidden%>
+      <%= f.submit "Remove from Cookbook" %>
+      <% end %>
+    </div>
     </div>
     <% end %>
   <% end %>

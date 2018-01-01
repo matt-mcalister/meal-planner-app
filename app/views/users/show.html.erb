@@ -19,7 +19,7 @@
         <%= f.number_field :favorite, type: :hidden %>
         <%= f.text_field :to_be_cooked, value: false, type: :hidden %>
         <%= text_field_tag :source, nil, value: "user_path(current_user)", type: :hidden%>
-        <%= f.submit "Remove From Recipes To Be Cooked"%>
+        <%= f.submit "Remove From Meal Calendar"%>
         <% end %>
       <% else %>
           You are out of:

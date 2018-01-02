@@ -14,5 +14,10 @@ class RecipesController < ApplicationController
     @recipe_card = RecipeCard.find_or_initialize_by(recipe_id: @recipe.id, user_id: @user.id)
   end
 
+  private
+    def recipe_params
+      params.require(:recipe).permit(:name, :yield, :total_cooking_time)
+    end
+
 
 end

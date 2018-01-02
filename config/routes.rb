@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
   # Full CRUD
   resources :users, only: [:show, :new, :create, :edit, :update, :destroy]
-  resources :recipe_cards, only: [:index, :create, :update, :destroy]
-  resources :pantry_items, only: [:index, :create, :update, :destroy]
+  resources :recipe_cards, only: [:index, :create, :update, :destroy] # show is through :recipes
+  resources :pantry_items, only: [:index, :create, :update, :destroy] # show is through :ingredients
 
 
   # Just Read
-  resources :recipes, only: [:index, :show]
+  resources :recipes, only: [:index, :show, :update]
   resources :ingredients, only: [:index, :show]
 
   # Sessions

@@ -176,7 +176,7 @@ breakfast.each do |url|
   total_time = recipe_info.select.with_index do |element, index|
     element.child.text.include?("Total time:") || recipe_info[index-1].child.text.include?("Total time:")
   end
- 
+
   recipe.total_cooking_time = total_time.last.child.text
 
   # recipe_info.each_with_index do |element, index|

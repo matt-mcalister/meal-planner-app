@@ -24,7 +24,7 @@
       <% else %>
           You are out of:
         <ul><% @user.ingredients_needed_for_recipe(recipe.id).each do |ingredient| %>
-           <li><%= link_to ingredient.name.capitalize, ingredient_path(ingredient) %></li>
+           <li><%= link_to ingredient.name.titleize, ingredient_path(ingredient) %></li>
        <% end %>
        </ul>
        <%= form_tag "/pantry_items/groceries" do %>

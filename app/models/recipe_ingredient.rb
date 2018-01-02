@@ -9,4 +9,8 @@ class RecipeIngredient < ApplicationRecord
     end
     result
   end
+
+  def self.units_of_measurement
+    self.all.map {|recipe_card| recipe_card.unit_of_measurement}.uniq
+  end
 end

@@ -3,7 +3,7 @@
 <% @recipes.each do |recipe| %>
   <div class="container">
     <div style ='float: left; padding: 5px;'>
-      <%= link_to recipe.name.capitalize, recipe_path(recipe)%>
+      <%= link_to recipe.name.titleize, recipe_path(recipe)%>
     </div>
       <% if !recipe.to_recipe_card(@user.id) %>
         <div style ='float: left; padding: 5px;'>

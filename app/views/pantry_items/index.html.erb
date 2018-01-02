@@ -7,7 +7,7 @@
     <% @ingredients_in_stock.each do |ingredient| %>
     <div class="container">
       <div style ='float: left; padding: 5px;'>
-        <%= link_to ingredient.name.capitalize, ingredient_path(ingredient)%>
+        <%= link_to ingredient.name.titleize, ingredient_path(ingredient)%>
       </div>
         <div style ='float: left; padding: 5px;'>
           <%= form_for (ingredient.to_pantry_item(@user.id) || @pantry_item) do |f|%>
@@ -29,7 +29,7 @@
 <% @grocery_list.each do |ingredient| %>
     <div class="container">
       <div style ='float: left; padding: 5px;'>
-    <%= link_to ingredient.name.capitalize, ingredient_path(ingredient)%>
+    <%= link_to ingredient.name.titleize, ingredient_path(ingredient)%>
     </div>
       <div style ='float: left; padding: 5px;'>
       <%= form_for (ingredient.to_pantry_item(@user.id) || @pantry_item) do |f|%>

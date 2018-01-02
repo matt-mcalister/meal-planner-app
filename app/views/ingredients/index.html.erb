@@ -1,5 +1,12 @@
 <h1>Ingredients</h1>
 
+<%= form_tag ingredients_path, method: :get do %>
+  <b><%= label_tag :ingredient_name, "Search by ingredient name:" %></b>
+  <br>
+  <%= search_field_tag :ingredient_name %>
+  <%= submit_tag 'Search' %>
+<% end %>
+
 <h3>Currently in stock:</h3>
   <% if @ingredients_in_stock.empty? %>
     <p> It looks like you're out of just about everything! Time to make a grocery list and pick a few things up.</p>

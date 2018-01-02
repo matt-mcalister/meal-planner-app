@@ -3,6 +3,14 @@ class RecipeCardsController < ApplicationController
   def index
     @recipes = Recipe.all.select {|recipe| recipe.user_ids.include?(current_user.id)}
     @user = current_user
+
+    if params[:recipe_name]
+      @recipes = @recipes.select {|recipe| recipe.name.downcase.include?(params[:recipe_name].downcase)}
+      if @recipes.empty?
+        @recipes = Recipe.all.select {|recipe| recipe.user_ids.include?(current_user.id)}
+        flash[:error] = ["No recipes match your search."]
+      end
+    end
   end
 
   def create

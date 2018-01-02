@@ -1,5 +1,12 @@
 <h1>Recipes</h1>
 
+<%= form_tag recipes_path, method: :get do %>
+  <b><%= label_tag :recipe_name, "Search by recipe name:" %></b>
+  <br>
+  <%= search_field_tag :recipe_name %>
+  <%= submit_tag 'Search' %>
+<% end %>
+
 <% @recipes.each do |recipe| %>
   <div class="container">
     <div style ='float: left; padding: 5px;'>

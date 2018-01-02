@@ -8,7 +8,7 @@
 
 
 
-# Serious Eats Seed Test
+# Serious Eats Seed
 
 breakfast = [
     "http://www.seriouseats.com/recipes/2017/12/bravetart-homemade-cinnamon-rolls-recipe.html",
@@ -22,10 +22,10 @@ breakfast = [
     "http://www.seriouseats.com/recipes/2017/05/easy-coffee-cake-recipe.html",
     "http://www.seriouseats.com/recipes/2017/04/ham-and-cheese-scones-recipe.html",
     "http://www.seriouseats.com/recipes/2017/03/basic-crepes-batter-recipe.html"
+
 ]
 
 
-# unit_of_measurement = ["ounce","cup","gram","tablespoon","teaspoon"]
 def deduplicate_commas(string)
   if string.include?(",,")
     string.gsub!(",,",",")
@@ -171,6 +171,9 @@ end
 breakfast.each do |url|
   hash = Nokogiri::HTML(RestClient.get("#{url}"))
   recipe = Recipe.find_or_initialize_by(name: hash.title.split(" | Serious Eats").first)
+  if recipe.name.include?("BraveTart:")
+    recipe.name.gsub!("BraveTart:", "")
+  end
   recipe.yield = hash.css("ul.recipe-about span.info.yield").text
   recipe_info = hash.css("ul.recipe-about span")
   total_time = recipe_info.select.with_index do |element, index|
@@ -178,12 +181,6 @@ breakfast.each do |url|
   end
 
   recipe.total_cooking_time = total_time.last.child.text
-
-  # recipe_info.each_with_index do |element, index|
-  #   if element.child.text.include?("Total Time")
-  #     recipe.total_cooking_time = recipe_info[i+1].child.text
-  #   end
-  # end
 
   if recipe.valid?
     recipe.save

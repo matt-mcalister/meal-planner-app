@@ -6,6 +6,13 @@
 
   <h1>My Recipe Book</h1>
 
+  <%= form_tag recipe_cards_path, method: :get do %>
+    <b><%= label_tag :recipe_name, "Search by recipe name:" %></b>
+    <br>
+    <%= search_field_tag :recipe_name %>
+    <%= submit_tag 'Search' %>
+  <% end %>
+
   <h3>Favorites</h3>
   <% @recipes.select {|recipe| recipe.to_recipe_card(@user.id).favorite}.each do |recipe| %>
   <div class="container">

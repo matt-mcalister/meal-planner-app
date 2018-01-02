@@ -4,6 +4,10 @@ class RecipesController < ApplicationController
     @recipes = Recipe.all
     @user = current_user
     @recipe_card = RecipeCard.new(user_id: @user.id)
+
+    if params[:recipe_name]
+      @recipes = @recipes.select {|recipe| recipe.name.downcase.include?(params[:recipe_name].downcase)}
+    end
   end
 
   def show

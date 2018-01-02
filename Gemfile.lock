@@ -40,6 +40,9 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
+    allrecipes (1.2.0)
+      mechanize
+      nokogiri
     arel (8.0.0)
     autoprefixer-rails (7.2.3)
       execjs
@@ -93,6 +96,15 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
+    mechanize (2.7.5)
+      domain_name (~> 0.5, >= 0.5.1)
+      http-cookie (~> 1.0)
+      mime-types (>= 1.17.2)
+      net-http-digest_auth (~> 1.1, >= 1.1.1)
+      net-http-persistent (~> 2.5, >= 2.5.2)
+      nokogiri (~> 1.6)
+      ntlm-http (~> 0.1, >= 0.1.1)
+      webrobots (>= 0.0.9, < 0.2)
     method_source (0.9.0)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
@@ -101,10 +113,13 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.10.3)
     multi_json (1.12.2)
+    net-http-digest_auth (1.4.1)
+    net-http-persistent (2.9.4)
     netrc (0.11.0)
     nio4r (2.1.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
+    ntlm-http (0.1.1)
     public_suffix (3.0.1)
     puma (3.11.0)
     rack (2.0.3)
@@ -188,6 +203,7 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
+    webrobots (0.1.2)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
@@ -198,6 +214,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  allrecipes
   bcrypt (~> 3.1.7)
   bootstrap-sass (= 3.3.7)
   byebug
